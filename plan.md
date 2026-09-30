@@ -9,7 +9,7 @@ This plan splits every checkbox in [goal.md](goal.md) into three depth levels.
 | **L3** | Expertise | explain the internals and trade-offs, and defend a design under follow-up questions |
 
 - Tick the goal.md checkbox when its L2 is done. L3 is what makes me the subject matter expert.
-- Each item's slug is its topic folder, e.g. `topics/g1-relational-modeling/`.
+- Each item's slug names its section on every level page: `g1-vector-search` → `goals/g1-database-architecture/l1/7-vector-search.md`.
 - Tool and product names come from general knowledge (unsourced). Check the current docs when studying a topic.
 
 ## Phases
@@ -54,8 +54,8 @@ This plan splits every checkbox in [goal.md](goal.md) into three depth levels.
 - [ ] **L3** — Decide from access patterns, consistency needs, scale, and team skills. Defend Postgres + pgvector against a dedicated vector database. Operational cost and migration paths.
 
 #### G1.7 Vector search · `g1-vector-search`
-- [ ] **L1** — What an embedding is. Cosine, dot product, and Euclidean similarity. Exact vs approximate nearest neighbor (ANN). What hybrid search is.
-- [ ] **L2** — cos(a, b) = a·b / (‖a‖‖b‖). pgvector: the `vector` column, the `<=>` operator, HNSW and IVFFlat indexes. Chunking strategies. BM25 through Postgres full-text search or OpenSearch. Merge result lists with Reciprocal Rank Fusion: score = Σ 1 / (k + rank).
+- [ ] **L1** — What an embedding is. Cosine, dot product, and Euclidean similarity. Exact vs approximate nearest neighbor (ANN). How an HNSW search walks its nested layers down to layer 0. What hybrid search is.
+- [ ] **L2** — cos(a, b) = a·b / (‖a‖‖b‖). pgvector: the `vector` column, the `<=>` operator, HNSW and IVFFlat indexes. How HNSW builds: the random level draw, links chosen per layer, trimming at the link limit — the insert walkthrough is drafted at `goals/g1-database-architecture/l2/7-vector-search.1-hnsw-build.tsx`. Chunking strategies. BM25 through Postgres full-text search or OpenSearch. Merge result lists with Reciprocal Rank Fusion: score = Σ 1 / (k + rank).
 - [ ] **L3** — HNSW (`m`, `ef_construction`, `ef_search`) and IVF (`lists`, `probes`) against recall and latency. Measure recall@k against exact search. Metadata filtering before vs after the search. Quantization (product, binary). Cross-encoder re-ranking. Re-indexing when the embedding model changes.
 
 #### G1.8 Data layer of an AI app · `g1-ai-data-layer`
