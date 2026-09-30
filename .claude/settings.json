@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "autoCompactEnabled": false,
+  "permissions": {
+    "allow": [],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(npm run deploy:*)",
+      "Bash(npx gh-pages:*)",
+      "Bash(gh repo create:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(npm publish:*)",
+
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Bash(git checkout --force:*)",
+      "Bash(git checkout -f:*)",
+      "Bash(git branch -D:*)",
+
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+
+      "Bash(git rebase:*)",
+      "Bash(git filter-branch:*)",
+      "Bash(git filter-repo:*)",
+      "Bash(git reflog expire:*)",
+      "Bash(git gc:*)",
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)"
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git merge:*)",
+      "Bash(git revert:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(git reset:*)",
+      "Bash(git restore:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rm:*)",
+      "Bash(git mv:*)",
+      "Bash(git tag:*)",
+      "Bash(git stash:*)",
+      "Bash(git config:*)",
+      "Bash(git remote:*)"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+# Personal, machine-local Claude Code settings — never commit these.
+settings.local.json
+
+# Any local scratch/notes you don't want shared.
+*.local.json
+
+# The fault ledger — local, so it records without being reviewed.
+skills/fault-tracker/.faults.md
