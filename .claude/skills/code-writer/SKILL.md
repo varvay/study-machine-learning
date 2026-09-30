@@ -1,6 +1,6 @@
 ---
 name: code-writer
-description: The house style for writing and editing source code in this repo — names, types, and structure carry the meaning, so comments stay a last resort. Covers the Astro site and explainers; code under topics/ and the capstone is the owner's own.
+description: The house style for writing and editing source code in this repo — names, types, and structure carry the meaning, so comments stay a last resort. Covers the Astro site and explainers; code under goals/ and the capstone is the owner's own.
 ---
 
 # Writing code
@@ -9,7 +9,7 @@ Code communicates through three things: its **names**, its **types**, and its **
 
 ## Study code is the owner's
 
-Code under `topics/` and the capstone project is the owner's study work, in the owner's style. Write or edit them only when asked, and then keep their style.
+Code under `goals/` and the capstone project is the owner's study work, in the owner's style. Write or edit them only when asked, and then keep their style.
 
 ## Names carry the meaning
 

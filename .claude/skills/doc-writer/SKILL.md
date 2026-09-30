@@ -1,13 +1,13 @@
 ---
 name: doc-writer
-description: House style for prose in this repo — the README, .claude/ files, and any page copy. Load when creating or editing any of them. Core rules — describe the current state, not the journey to it, and say it in as few words as carry the fact — plus the repo's lean / no-hard-wrap conventions. Topic notes under topics/ and goal.md are the owner's own.
+description: House style for prose in this repo — the README, .claude/ files, and any page copy. Load when creating or editing any of them. Core rules — describe the current state, not the journey to it, and say it in as few words as carry the fact — plus the repo's lean / no-hard-wrap conventions. Pages under goals/ and goal.md are the owner's own.
 ---
 
 # Writing docs in this repo
 
 A doc describes **the current state, present-tense, as if it always was.** It is not a changelog or a record of how the design was reached. The reader does not know what you explored and set aside — so don't reference it.
 
-Topic notes under `topics/` and the roadmap in `goal.md` are the owner's study writing, in the owner's voice. Write or edit them only when asked.
+Pages under `goals/` and the roadmap in `goal.md` are the owner's study writing, in the owner's voice. Write or edit them only when asked.
 
 ## Describe the state, not the journey
 
