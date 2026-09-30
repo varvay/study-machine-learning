@@ -1,0 +1,80 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import Sections from '../../components/Sections.astro';
+import SourceFiles from '../../components/SourceFiles.astro';
+import Base from '../../layouts/Base.astro';
+import { goalLabel, levelLabel, parseLevelId } from '../../lib/goals';
+import { url } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+	const levels = await getCollection('levels');
+	return levels.map((level) => {
+		const { goalSlug, levelSlug } = parseLevelId(level.id);
+		return { params: { goal: goalSlug, level: levelSlug }, props: { level } };
+	});
+}) satisfies GetStaticPaths;
+
+const { level } = Astro.props;
+const { goalSlug, level: levelNumber } = parseLevelId(level.id);
+const goal = await getEntry('goals', goalSlug);
+const goalTitle = goal?.data.title ?? goalSlug;
+const siblingLevels = (await getCollection('levels', (entry) => entry.id.startsWith(`${goalSlug}/`)))
+	.map((entry) => ({ id: entry.id, ...parseLevelId(entry.id) }))
+	.sort((a, b) => a.level - b.level);
+const { Content } = await render(level);
+---
+
+<Base title={`${goalLabel(goalSlug)} ${levelLabel(levelNumber)} — ${goalTitle}`}>
+	<p class="breadcrumb">
+		<a href={url(`/${goalSlug}/`)}>{goalLabel(goalSlug)} · {goalTitle}</a>
+	</p>
+	<h1>{levelLabel(levelNumber)}</h1>
+	{level.data.description && <p class="description">{level.data.description}</p>}
+
+	<nav class="level-tabs" aria-label="Levels">
+		{
+			siblingLevels.map((sibling) => (
+				<a href={url(`/${sibling.goalSlug}/${sibling.levelSlug}/`)} aria-current={sibling.id === level.id ? 'page' : undefined}>
+					{levelLabel(sibling.level)}
+				</a>
+			))
+		}
+	</nav>
+
+	<Sections levelId={level.id} />
+
+	<SourceFiles folder={`goals/${level.id}`} />
+
+	<Content />
+</Base>
+
+<style>
+	.breadcrumb {
+		margin: 0 0 4px;
+	}
+	.breadcrumb a {
+		color: var(--muted);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.level-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin: 16px 0;
+	}
+	.level-tabs a {
+		padding: 5px 12px;
+		border: 1.5px solid var(--rule);
+		border-radius: 8px;
+		color: var(--ink);
+		text-decoration: none;
+		font-size: 0.92rem;
+	}
+	.level-tabs a[aria-current='page'] {
+		border-color: var(--ink);
+		background: var(--panel);
+		font-weight: 700;
+	}
+</style>

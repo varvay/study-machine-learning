@@ -1,0 +1,197 @@
+---
+import { url } from '../lib/url';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+		<link rel="icon" href={url('/favicon.ico')} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<header>
+			<a href={url('/')}>AI engineering journal</a>
+		</header>
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--paper: #eef1f4;
+		--panel: #ffffff;
+		--ink: #1d2a3a;
+		--muted: #5b6878;
+		--rule: #cbd3dc;
+		--teal: #23798a;
+		--teal-soft: #d3ecef;
+		--green: #3a8a4c;
+		--green-soft: #d6eeda;
+		--amber: #c98e00;
+		--amber-soft: #fbefc9;
+		--red: #b8472f;
+		--red-soft: #f6dcd5;
+
+		--accent: var(--teal);
+		--accent-soft: var(--teal-soft);
+		--easy: var(--green);
+		--easy-soft: var(--green-soft);
+		--medium: var(--amber);
+		--medium-soft: var(--amber-soft);
+		--hard: var(--red);
+		--hard-soft: var(--red-soft);
+		--scene-focus: var(--teal);
+		--scene-focus-soft: var(--teal-soft);
+		--scene-add: var(--green);
+		--scene-add-soft: var(--green-soft);
+		--scene-remove: var(--red);
+		--scene-remove-soft: var(--red-soft);
+		--scene-frame: var(--amber);
+		--scene-frame-soft: var(--amber-soft);
+		color-scheme: light;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--paper: #131a23;
+			--panel: #1b242f;
+			--ink: #e5ebf1;
+			--muted: #9ba8b6;
+			--rule: #324050;
+			--teal: #56b7c8;
+			--teal-soft: #163338;
+			--green: #62bf74;
+			--green-soft: #1b3522;
+			--amber: #f0b83a;
+			--amber-soft: #3b3117;
+			--red: #f08a70;
+			--red-soft: #3c1f18;
+			color-scheme: dark;
+		}
+		.astro-code span {
+			color: var(--shiki-dark) !important;
+		}
+	}
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+	body {
+		margin: 0;
+		background: var(--paper);
+		color: var(--ink);
+		font-family: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+		font-size: 17px;
+		line-height: 1.5;
+	}
+	header,
+	main {
+		max-width: 880px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+	header {
+		padding-top: 20px;
+	}
+	header a {
+		font-weight: 700;
+		color: var(--muted);
+		text-decoration: none;
+	}
+	main {
+		padding-top: 24px;
+		padding-bottom: 56px;
+	}
+	h1 {
+		font-size: clamp(1.6rem, 4.2vw, 2.3rem);
+		line-height: 1.12;
+		letter-spacing: -0.012em;
+		margin: 0 0 10px;
+	}
+	h2 {
+		font-size: 1.15rem;
+		margin: 28px 0 8px;
+	}
+	a {
+		color: var(--accent);
+	}
+	a:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 2px;
+	}
+	.muted {
+		color: var(--muted);
+	}
+	.description {
+		color: var(--muted);
+		max-width: 64ch;
+		font-size: 1.05rem;
+	}
+	.panel {
+		background: var(--panel);
+		border: 1.5px solid var(--rule);
+		border-radius: 14px;
+	}
+	pre.astro-code {
+		background: var(--panel) !important;
+		border: 1.5px solid var(--rule);
+		border-radius: 10px;
+		padding: 14px 16px;
+		overflow-x: auto;
+		font-size: 0.88rem;
+		line-height: 1.55;
+	}
+	:not(pre) > code {
+		background: var(--panel);
+		border: 1.5px solid var(--rule);
+		border-radius: 6px;
+		padding: 0 5px;
+		font-size: 0.9em;
+	}
+	.difficulty {
+		display: inline-block;
+		padding: 1px 9px;
+		border-radius: 6px;
+		font-size: 0.85rem;
+		font-weight: 700;
+	}
+	.difficulty.Easy {
+		color: var(--easy);
+		background: var(--easy-soft);
+	}
+	.difficulty.Medium {
+		color: var(--medium);
+		background: var(--medium-soft);
+	}
+	.difficulty.Hard {
+		color: var(--hard);
+		background: var(--hard-soft);
+	}
+	.tag {
+		display: inline-block;
+		padding: 1px 9px;
+		margin: 0 4px 4px 0;
+		border: 1.5px solid var(--rule);
+		border-radius: 7px;
+		font-size: 0.8rem;
+		color: var(--muted);
+		white-space: nowrap;
+	}
+</style>

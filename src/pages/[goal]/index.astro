@@ -1,0 +1,61 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { goalLabel, levelLabel, parseLevelId } from '../../lib/goals';
+import { url } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+	const goals = await getCollection('goals');
+	return goals.map((goal) => ({ params: { goal: goal.id }, props: { goal } }));
+}) satisfies GetStaticPaths;
+
+const { goal } = Astro.props;
+const levels = (await getCollection('levels', (entry) => entry.id.startsWith(`${goal.id}/`)))
+	.map((entry) => ({ description: entry.data.description, ...parseLevelId(entry.id) }))
+	.sort((a, b) => a.level - b.level);
+const { Content } = await render(goal);
+---
+
+<Base title={`${goalLabel(goal.id)} — ${goal.data.title}`}>
+	<h1><span class="goal-label">{goalLabel(goal.id)}</span> {goal.data.title}</h1>
+	{goal.data.description && <p class="description">{goal.data.description}</p>}
+
+	<ul class="panel levels">
+		{
+			levels.map((level) => (
+				<li>
+					<a href={url(`/${goal.id}/${level.levelSlug}/`)}>{levelLabel(level.level)}</a>
+					{level.description && <p class="muted">{level.description}</p>}
+				</li>
+			))
+		}
+	</ul>
+
+	<Content />
+</Base>
+
+<style>
+	.goal-label {
+		color: var(--muted);
+	}
+	.levels {
+		list-style: none;
+		margin: 20px 0 0;
+		padding: 0;
+	}
+	.levels li {
+		padding: 12px 16px;
+		border-bottom: 1.5px solid var(--rule);
+	}
+	.levels li:last-child {
+		border-bottom: none;
+	}
+	.levels a {
+		font-weight: 700;
+	}
+	.levels p {
+		margin: 4px 0 0;
+		font-size: 0.92rem;
+	}
+</style>

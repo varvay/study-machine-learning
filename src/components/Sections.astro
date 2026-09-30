@@ -1,0 +1,168 @@
+---
+import { getCollection, render } from 'astro:content';
+import { sectionExplainerPaths } from '../lib/folders';
+import { parseSectionId } from '../lib/goals';
+import Explainer from './Explainer.astro';
+
+interface Props {
+	levelId: string;
+}
+
+const { levelId } = Astro.props;
+
+const entries = await getCollection('sections', (entry) => entry.id.startsWith(`${levelId}/`));
+const sections = await Promise.all(
+	entries.map(async (entry) => ({
+		...parseSectionId(entry.id),
+		title: entry.data.title,
+		explainerPaths: sectionExplainerPaths(entry.id),
+		Content: (await render(entry)).Content,
+	})),
+);
+sections.sort((a, b) => a.itemNumber - b.itemNumber);
+---
+
+{
+	sections.length > 0 && (
+		<nav class="contents panel" aria-label="Contents">
+			<ol>
+				{sections.map((section) => (
+					<li>
+						<a href={`#${section.anchor}`}>
+							<span class="item-label">{section.itemLabel}</span> {section.title}
+						</a>
+					</li>
+				))}
+			</ol>
+		</nav>
+	)
+}
+
+{
+	sections.map((section) => (
+		<section id={section.anchor} class="level-section">
+			<h2>
+				<span class="item-label">{section.itemLabel}</span> {section.title}
+			</h2>
+			<div class="section-text">
+				<section.Content />
+			</div>
+			{section.explainerPaths.map((path) => (
+				<Explainer file={path} heading="h3" />
+			))}
+		</section>
+	))
+}
+
+<style is:global>
+	.contents ol {
+		list-style: none;
+		margin: 0;
+		padding: 10px 0;
+		columns: 2 260px;
+	}
+	.contents li {
+		padding: 3px 16px;
+		break-inside: avoid;
+	}
+	.contents a {
+		text-decoration: none;
+	}
+	.item-label {
+		color: var(--muted);
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		margin-right: 4px;
+	}
+	.level-section {
+		margin-top: 44px;
+		scroll-margin-top: 16px;
+	}
+	.level-section > h2 {
+		font-size: 1.35rem;
+		padding-bottom: 6px;
+		border-bottom: 1.5px solid var(--rule);
+	}
+	.section-text {
+		max-width: 72ch;
+	}
+	.section-text li + li {
+		margin-top: 4px;
+	}
+	.section-text table {
+		display: block;
+		overflow-x: auto;
+		border-collapse: collapse;
+		font-size: 0.92rem;
+		background: var(--panel);
+		border: 1.5px solid var(--rule);
+		border-radius: 10px;
+	}
+	.section-text th,
+	.section-text td {
+		text-align: left;
+		vertical-align: baseline;
+		padding: 8px 12px;
+		border-bottom: 1.5px solid var(--rule);
+	}
+	.section-text thead th {
+		font-size: 0.8rem;
+		color: var(--muted);
+	}
+	.section-text tbody tr:last-child td {
+		border-bottom: none;
+	}
+	.section-text figure {
+		margin: 20px 0;
+	}
+	.section-text figcaption {
+		color: var(--muted);
+		font-size: 0.88rem;
+		margin-top: 6px;
+	}
+	.diagram-scroll {
+		overflow-x: auto;
+	}
+	.diagram {
+		display: block;
+		width: 100%;
+		min-width: 600px;
+		height: auto;
+	}
+	.diagram text {
+		font-family: inherit;
+		font-size: 13px;
+		fill: var(--ink);
+	}
+	.diagram .table-name,
+	.diagram .key-column {
+		font-weight: 700;
+	}
+	.diagram .key-tag {
+		font-size: 11px;
+		fill: var(--muted);
+	}
+	.diagram .note {
+		font-size: 12px;
+		fill: var(--muted);
+	}
+	.diagram .table-body {
+		fill: var(--panel);
+	}
+	.diagram .table-outline {
+		fill: none;
+		stroke: var(--rule);
+		stroke-width: 1.5;
+	}
+	.diagram .fact-head {
+		fill: var(--accent-soft);
+	}
+	.diagram .dimension-head {
+		fill: var(--amber-soft);
+	}
+	.diagram .key-link {
+		fill: none;
+		stroke: var(--muted);
+		stroke-width: 1.5;
+	}
+</style>

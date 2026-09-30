@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { goalLabel, levelLabel, parseLevelId } from '../lib/goals';
+import { url } from '../lib/url';
+
+const goals = (await getCollection('goals')).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+const levels = (await getCollection('levels')).map((entry) => parseLevelId(entry.id)).sort((a, b) => a.level - b.level);
+const levelsOf = (goalSlug: string) => levels.filter((level) => level.goalSlug === goalSlug);
+---
+
+<Base title="AI engineering journal">
+	<h1>Road to AI / ML Engineer</h1>
+	<p class="muted">Each goal is studied in three levels: surface, practical, and expertise.</p>
+
+	<ul class="panel goals">
+		{
+			goals.map(({ id, data }) => (
+				<li>
+					<a class="goal-title" href={url(`/${id}/`)}>
+						<span class="goal-label">{goalLabel(id)}</span> {data.title}
+					</a>
+					{data.description && <p class="muted">{data.description}</p>}
+					<p class="goal-levels">
+						{levelsOf(id).map((level) => (
+							<a class="tag" href={url(`/${id}/${level.levelSlug}/`)}>
+								{levelLabel(level.level)}
+							</a>
+						))}
+					</p>
+				</li>
+			))
+		}
+	</ul>
+</Base>
+
+<style>
+	.goals {
+		list-style: none;
+		margin: 20px 0 0;
+		padding: 0;
+	}
+	.goals li {
+		padding: 14px 16px;
+		border-bottom: 1.5px solid var(--rule);
+	}
+	.goals li:last-child {
+		border-bottom: none;
+	}
+	.goal-title {
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.goal-label {
+		color: var(--muted);
+	}
+	.goals p {
+		margin: 4px 0 0;
+		font-size: 0.92rem;
+	}
+	.goal-levels .tag {
+		color: var(--ink);
+		text-decoration: none;
+	}
+</style>

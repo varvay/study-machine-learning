@@ -1,0 +1,19 @@
+---
+import { Code } from 'astro:components';
+import { sourceFilesIn, type Folder } from '../lib/folders';
+
+interface Props {
+	folder: Folder;
+}
+
+const files = sourceFilesIn(Astro.props.folder);
+---
+
+{
+	files.map((file) => (
+		<section data-code-file={file.name}>
+			<h2>{file.name}</h2>
+			<Code code={file.code} lang={file.language as any} themes={{ light: 'github-light', dark: 'github-dark' }} />
+		</section>
+	))
+}
