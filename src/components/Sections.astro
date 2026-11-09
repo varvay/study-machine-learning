@@ -2,7 +2,9 @@
 import { getCollection, render } from 'astro:content';
 import { sectionExplainerPaths } from '../lib/folders';
 import { parseSectionId } from '../lib/goals';
+import { sectionNoteId } from '../lib/notes';
 import Explainer from './Explainer.astro';
+import Notes from './Notes.astro';
 
 interface Props {
 	levelId: string;
@@ -11,9 +13,11 @@ interface Props {
 const { levelId } = Astro.props;
 
 const entries = await getCollection('sections', (entry) => entry.id.startsWith(`${levelId}/`));
+const notes = await getCollection('notes', (note) => note.id.startsWith(`${levelId}/`));
 const sections = await Promise.all(
 	entries.map(async (entry) => ({
 		...parseSectionId(entry.id),
+		noteId: sectionNoteId(entry.id),
 		title: entry.data.title,
 		explainerPaths: sectionExplainerPaths(entry.id),
 		Content: (await render(entry)).Content,
@@ -50,6 +54,7 @@ sections.sort((a, b) => a.itemNumber - b.itemNumber);
 			{section.explainerPaths.map((path) => (
 				<Explainer file={path} heading="h3" />
 			))}
+			<Notes noteId={section.noteId} label="Your notes" entry={notes.find((note) => note.id === section.noteId)} />
 		</section>
 	))
 }
@@ -159,6 +164,16 @@ sections.sort((a, b) => a.itemNumber - b.itemNumber);
 	}
 	.diagram .dimension-head {
 		fill: var(--amber-soft);
+	}
+	.diagram .fold-train {
+		fill: var(--panel);
+		stroke: var(--rule);
+		stroke-width: 1.5;
+	}
+	.diagram .fold-test {
+		fill: var(--accent-soft);
+		stroke: var(--accent);
+		stroke-width: 1.5;
 	}
 	.diagram .key-link {
 		fill: none;

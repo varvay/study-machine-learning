@@ -86,8 +86,11 @@ const { file, heading = 'h2' } = Astro.props;
 	}
 	.explainer .custom-field {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 8px;
 		align-items: center;
+		max-width: 100%;
+		min-width: 0;
 	}
 	.explainer .custom-input label {
 		font-size: 0.9rem;
@@ -374,6 +377,72 @@ const { file, heading = 'h2' } = Astro.props;
 		font-size: 0.72rem;
 		font-weight: 700;
 		white-space: nowrap;
+	}
+	.explainer .node-box {
+		position: absolute;
+		width: 64px;
+		height: 40px;
+		margin: -20px 0 0 -32px;
+		border: 2px solid var(--rule);
+		border-radius: 10px;
+		background: var(--panel);
+		display: grid;
+		place-items: center;
+		font-size: 1rem;
+		font-weight: 700;
+		z-index: 1;
+		transition:
+			background 0.3s,
+			border-color 0.3s;
+	}
+	.explainer .node-box.tone-focus {
+		border-color: var(--scene-focus);
+		background: var(--scene-focus-soft);
+	}
+	.explainer .node-box.tone-add {
+		border-color: var(--scene-add);
+		background: var(--scene-add-soft);
+	}
+	.explainer .node-box.tone-remove {
+		border-color: var(--scene-remove);
+		background: var(--scene-remove-soft);
+	}
+	.explainer .node-label {
+		color: var(--muted);
+		position: absolute;
+		top: -20px;
+		left: 50%;
+		translate: -50% 0;
+		font-size: 0.72rem;
+		white-space: nowrap;
+	}
+	.explainer .link-label {
+		position: absolute;
+		translate: -50% -50%;
+		font-size: 0.72rem;
+		font-weight: 700;
+		padding: 1px 5px;
+		border-radius: 5px;
+		border: 1px solid var(--rule);
+		background: var(--panel);
+		white-space: nowrap;
+		z-index: 1;
+		transition:
+			opacity 0.3s,
+			color 0.3s,
+			border-color 0.3s;
+	}
+	.explainer .link-label.tone-focus {
+		color: var(--scene-focus);
+		border-color: var(--scene-focus);
+	}
+	.explainer .link-label.tone-add {
+		color: var(--scene-add);
+		border-color: var(--scene-add);
+	}
+	.explainer .link-label.tone-remove {
+		color: var(--scene-remove);
+		border-color: var(--scene-remove);
 	}
 	.explainer .chip {
 		font-size: 0.9rem;

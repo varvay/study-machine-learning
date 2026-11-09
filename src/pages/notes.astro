@@ -1,0 +1,78 @@
+---
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { goalLabel, levelLabel, parseLevelId, parseSectionId } from '../lib/goals';
+import { PAGE_NOTE_NAME } from '../lib/notes';
+import { url } from '../lib/url';
+import { renderNoteMarkdown } from '../notes/render';
+import '../styles/notes.css';
+
+interface NoteView {
+	id: string;
+	levelId: string;
+	heading: string;
+	link: string;
+	updated?: Date;
+	html: string;
+}
+
+async function viewOf(note: CollectionEntry<'notes'>): Promise<NoteView> {
+	const [goalSlug, levelSlug, name] = note.id.split('/');
+	const levelId = `${goalSlug}/${levelSlug}`;
+	const pageLink = url(`/${goalSlug}/${levelSlug}/`);
+	const html = renderNoteMarkdown(note.body ?? '');
+	if (name === PAGE_NOTE_NAME) return { id: note.id, levelId, heading: 'Notes on this page', link: pageLink, updated: note.data.updated, html };
+	const section = await getEntry('sections', note.id);
+	const { itemLabel, anchor } = parseSectionId(note.id);
+	return { id: note.id, levelId, heading: `${itemLabel} ${section?.data.title ?? name}`, link: `${pageLink}#${anchor}`, updated: note.data.updated, html };
+}
+
+const notes = await Promise.all((await getCollection('notes')).map(viewOf));
+notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+const levelIds = [...new Set(notes.map((note) => note.levelId))];
+const levelTitle = async (levelId: string) => {
+	const { goalSlug, level } = parseLevelId(levelId);
+	const goal = await getEntry('goals', goalSlug);
+	return `${goalLabel(goalSlug)} ${goal?.data.title ?? goalSlug} · ${levelLabel(level)}`;
+};
+const groups = await Promise.all(levelIds.map(async (levelId) => ({ levelId, title: await levelTitle(levelId), notes: notes.filter((note) => note.levelId === levelId) })));
+const formatDate = (date?: Date) => (date ? date.toISOString().slice(0, 10) : '');
+---
+
+<Base title="My notes">
+	<h1>My notes</h1>
+	<p class="muted">
+		{notes.length} note{notes.length === 1 ? '' : 's'}, in study order. Add or edit them from any page while running <code>npm run dev</code>; each is a Markdown file in <code>notes/</code>.
+	</p>
+
+	{
+		groups.map((group) => (
+			<section class="notes-group">
+				<h2>{group.title}</h2>
+				{group.notes.map((note) => (
+					<article class="note panel">
+						<header class="note-header">
+							<h3 class="note-label">
+								<a href={note.link}>{note.heading}</a>
+							</h3>
+							<span class="muted note-date">{formatDate(note.updated)}</span>
+						</header>
+						<div class="note-body section-text" set:html={note.html} />
+					</article>
+				))}
+			</section>
+		))
+	}
+</Base>
+
+<style>
+	.notes-group h2 {
+		margin-top: 32px;
+	}
+	.note-label a {
+		color: inherit;
+	}
+	.note-date {
+		font-size: 0.8rem;
+	}
+</style>

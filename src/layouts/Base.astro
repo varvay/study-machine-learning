@@ -26,6 +26,7 @@ const { title } = Astro.props;
 	<body>
 		<header>
 			<a href={url('/')}>AI engineering journal</a>
+			<a href={url('/notes/')}>My notes</a>
 		</header>
 		<main>
 			<slot />
@@ -110,6 +111,11 @@ const { title } = Astro.props;
 	header {
 		padding-top: 20px;
 	}
+	header {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+	}
 	header a {
 		font-weight: 700;
 		color: var(--muted);
@@ -159,6 +165,7 @@ const { title } = Astro.props;
 		line-height: 1.55;
 	}
 	:not(pre) > code {
+		overflow-wrap: anywhere;
 		background: var(--panel);
 		border: 1.5px solid var(--rule);
 		border-radius: 6px;

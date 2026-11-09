@@ -79,7 +79,7 @@ function Walkthrough<Input, S extends Step>({ explainer, heading: Title }: { exp
 	useEffect(() => {
 		const onKeydown = (event: KeyboardEvent) => {
 			const target = event.target as HTMLElement;
-			if (target.tagName === 'INPUT' || !ownsKeyboard(player.current!)) return;
+			if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable || !ownsKeyboard(player.current!)) return;
 			if (event.key === 'ArrowRight') stepBy(1);
 			else if (event.key === 'ArrowLeft') stepBy(-1);
 			else if (event.key === ' ' && target.tagName !== 'BUTTON') {

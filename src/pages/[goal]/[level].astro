@@ -1,10 +1,12 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { getCollection, getEntry, render } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
+import Notes from '../../components/Notes.astro';
 import Sections from '../../components/Sections.astro';
 import SourceFiles from '../../components/SourceFiles.astro';
 import Base from '../../layouts/Base.astro';
 import { goalLabel, levelLabel, parseLevelId } from '../../lib/goals';
+import { pageNoteId } from '../../lib/notes';
 import { url } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
@@ -22,7 +24,7 @@ const goalTitle = goal?.data.title ?? goalSlug;
 const siblingLevels = (await getCollection('levels', (entry) => entry.id.startsWith(`${goalSlug}/`)))
 	.map((entry) => ({ id: entry.id, ...parseLevelId(entry.id) }))
 	.sort((a, b) => a.level - b.level);
-const { Content } = await render(level);
+const pageNote = (await getCollection('notes', (note) => note.id === pageNoteId(level.id)))[0];
 ---
 
 <Base title={`${goalLabel(goalSlug)} ${levelLabel(levelNumber)} — ${goalTitle}`}>
@@ -46,7 +48,7 @@ const { Content } = await render(level);
 
 	<SourceFiles folder={`goals/${level.id}`} />
 
-	<Content />
+	<Notes noteId={pageNoteId(level.id)} label="Notes on this page" entry={pageNote} />
 </Base>
 
 <style>

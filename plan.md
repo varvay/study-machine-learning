@@ -14,8 +14,8 @@ This plan splits every checkbox in [goal.md](goal.md) into three depth levels.
 
 ## Phases
 
-1. **Breadth** — every L1, G1 to G7. Every interview question then gets a correct short answer.
-2. **Practice** — L2 in priority order: G1, G6, G5, G3, G4, G2. Build the capstone as I go; most L2 items produce one piece of it.
+1. **Breadth** — every L1, G1 to G8. Every interview question then gets a correct short answer.
+2. **Practice** — L2 in priority order: G1, G6, G5, G3, G4, G2. Build the capstone as I go; most L2 items produce one piece of it. Practice G8 in the agent that builds it.
 3. **Depth** — L3 on G1 and on everything the capstone uses. Rehearse the G7 stories.
 4. **Rehearsal** — the Interview Readiness Checklist in goal.md, and mock interviews.
 
@@ -73,8 +73,8 @@ This plan splits every checkbox in [goal.md](goal.md) into three depth levels.
 - [ ] **L3** — Bias-variance decomposition. Why ensembles work: bagging lowers variance, boosting lowers bias. Hyperparameter search: grid, random, Bayesian (Optuna). Choose a model for a client's data size and need for interpretability.
 
 #### G2.2 Evaluation metrics · `g2-metrics`
-- [ ] **L1** — The confusion matrix. Accuracy, precision, recall, F1, ROC-AUC, RMSE, perplexity, BLEU, ROUGE in one line each.
-- [ ] **L2** — Precision = TP / (TP + FP). Recall = TP / (TP + FN). F1 = 2PR / (P + R). RMSE = √mean((y − ŷ)²). Perplexity = exp(mean negative log-likelihood). Compute them in scikit-learn. Pick a threshold from the precision-recall curve.
+- [ ] **L1** — The confusion matrix. Accuracy, precision, recall, F1, ROC-AUC, RMSE, perplexity, BLEU, ROUGE in one line each. How the threshold trades precision against recall.
+- [ ] **L2** — RMSE = √mean((y − ŷ)²). Perplexity = exp(mean negative log-likelihood). Compute the metrics in scikit-learn. Pick a threshold from the precision-recall curve.
 - [ ] **L3** — PR-AUC over ROC-AUC on imbalanced data. Metrics weighted by business cost. Why BLEU and ROUGE fail on LLM output, and what replaces them (LLM-as-judge, task-specific checks). Significance testing between two models.
 
 #### G2.3 Data pitfalls · `g2-data-pitfalls`
@@ -83,8 +83,8 @@ This plan splits every checkbox in [goal.md](goal.md) into three depth levels.
 - [ ] **L3** — Subtle leakage: target leakage, duplicates across splits, future information in features. Shift between training and production data. Benchmark contamination in LLM pretraining data.
 
 #### G2.4 Neural network training · `g2-neural-networks`
-- [ ] **L1** — Neuron, layer, activation, loss, forward pass, backpropagation, gradient descent.
-- [ ] **L2** — Train a small MLP in PyTorch. MSE and cross-entropy loss. SGD and AdamW. Update rule w ← w − η∇L. Learning rate, batch size, epochs. Dropout and normalization layers.
+- [ ] **L1** — Neuron, layer, activation, loss, forward pass, backpropagation, gradient descent with its learning rate, batch, epoch.
+- [ ] **L2** — Train a small MLP in PyTorch. MSE and cross-entropy loss. SGD and AdamW. Tuning learning rate and batch size. Dropout and normalization layers.
 - [ ] **L3** — Vanishing and exploding gradients, and their fixes: ReLU, residual connections, normalization, gradient clipping. Learning rate warmup and cosine decay. Mixed precision (fp16, bf16). Diagnose training from a loss curve.
 
 #### G2.5 Error analysis · `g2-error-analysis`
@@ -282,3 +282,37 @@ Levels for every story:
 - [ ] **L1**
 - [ ] **L2**
 - [ ] **L3**
+
+---
+
+## G8 — Agentic AI Fluency
+
+#### G8.1 How coding agents work · `g8-how-agents-work`
+- [ ] **L1** — A coding agent is an LLM in a tool loop (G5.1) with access to files, a shell, and the web. Autocomplete vs chat vs agent. Claude Code and its surfaces: terminal, IDE, desktop, web. Where else Claude acts as an agent: the Claude app, Claude in Chrome, the Agent SDK. Anthropic's AI Fluency framework, the 4Ds, as the map of this goal: Description (G8.2), Delegation (G8.3), Discernment (G8.4), Diligence (G8.5).
+- [ ] **L2** — Run Claude Code on a real task: read, plan, edit, test. What it loads at session start, how the context window fills, and compaction. Choosing between Opus, Sonnet, and Haiku. Plans and cost per session.
+- [ ] **L3** — Why agents struggle on large codebases: context limits, stale training data, missing tribal knowledge. Agentic search vs an embedding index. Claude Code against Cursor, GitHub Copilot, and OpenAI Codex on autonomy, sandboxing, and pricing. What SWE-bench measures, and what it misses — verify current results.
+
+#### G8.2 Context and instructions · `g8-context`
+- [ ] **L1** — What the agent sees decides what it does. The inputs: the task, project instructions (CLAUDE.md, AGENTS.md), reference files, a definition of done.
+- [ ] **L2** — Write a project instructions file. Give tasks with acceptance criteria. Point to a reference file to copy. Keep context lean: one task per session, clear or compact between tasks.
+- [ ] **L3** — Rules that are checkable, and that hold across sessions. A mistake log the agent reads at start. Instructions that conflict, go stale, or grow too long to follow.
+
+#### G8.3 Planning and delegation · `g8-delegation`
+- [ ] **L1** — Plan before editing. Small steps the agent can verify. What to delegate and what to keep.
+- [ ] **L2** — Plan mode. Tests written first as the agent's check. Subagents for search and parallel work. Git worktrees for parallel sessions. Headless runs from a script.
+- [ ] **L3** — Orchestrate a large change across many agents. Cost against speed. When doing it yourself is faster than explaining it.
+
+#### G8.4 Reviewing agent output · `g8-review`
+- [ ] **L1** — You own what ships. Typical errors: invented APIs, edits outside the task, tests weakened to pass, "done" claimed without running anything.
+- [ ] **L2** — Read the diff line by line. Run the tests and the app yourself. Make the agent check its work against the acceptance criteria. AI review on pull requests.
+- [ ] **L3** — Verification at scale: CI gates, defect rates of agent-written code. Keeping your own skills sharp when the agent writes most of the code.
+
+#### G8.5 Safety and governance · `g8-safety`
+- [ ] **L1** — The risks: destructive commands, leaked secrets, prompt injection through files and web pages, licensing, code sent to a vendor.
+- [ ] **L2** — Permission modes and allowlists. Sandboxes and containers. Secrets kept out of the agent's reach. Reading a command before approving it. Vendor data terms (retention, training on your code).
+- [ ] **L3** — Threat model for an agent with repo and shell access (G5.5, G6.7). Supply-chain risk of third-party MCP servers. Audit trails. A team policy for client code.
+
+#### G8.6 Extending and team workflows · `g8-team`
+- [ ] **L1** — Extension points: MCP servers (G5.4), skills and custom commands, hooks. Agents in CI and on pull requests.
+- [ ] **L2** — Add an MCP server. Write a skill. A hook that runs the formatter or tests after each edit. Run the agent in GitHub Actions.
+- [ ] **L3** — Roll out to a team: shared config in the repo, conventions, onboarding. The evidence on productivity (METR's 2025 randomized trial, the DORA reports) — verify current. Walk through this journal's `.claude/` setup as a worked example.

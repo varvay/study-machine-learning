@@ -41,4 +41,17 @@ const sections = defineCollection({
 	}),
 });
 
-export const collections = { goals, levels, sections };
+// The owner's notes live in notes/<goal-slug>/l<1-3>/<section-file-stem>.md, or _page.md for the whole level page.
+// In dev the notes editor writes them through the endpoint in src/integrations/notes-writer.ts.
+const notes = defineCollection({
+	loader: glob({
+		base: './notes',
+		pattern: '*/l[1-3]/*.md',
+		generateId: ({ entry }) => stripExtension(entry),
+	}),
+	schema: z.object({
+		updated: z.coerce.date().optional(),
+	}),
+});
+
+export const collections = { goals, levels, sections, notes };

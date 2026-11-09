@@ -1,0 +1,3 @@
+---
+description: What each idea is, and how it works in a nutshell.
+---

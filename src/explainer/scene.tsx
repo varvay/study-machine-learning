@@ -200,6 +200,48 @@ export function Link({ from, to, tone = 'plain', hidden }: { from: PlotPosition;
 	return <div className={`link tone-${tone}`} style={{ ...placed(from, hidden), width: length, transform: `rotate(${angle}rad)` }} />;
 }
 
+export function NodeBox({
+	position,
+	value,
+	label,
+	tone = 'plain',
+}: {
+	position: PlotPosition;
+	value: string;
+	label: string;
+	tone?: CellTone;
+}) {
+	return (
+		<div className={`node-box tone-${tone}`} style={placed(position)}>
+			{value}
+			<span className="node-label">{label}</span>
+		</div>
+	);
+}
+
+export function LinkLabel({
+	from,
+	to,
+	along = 0.5,
+	text,
+	tone = 'plain',
+	hidden,
+}: {
+	from: PlotPosition;
+	to: PlotPosition;
+	along?: number;
+	text: string;
+	tone?: LinkTone;
+	hidden?: boolean;
+}) {
+	const position = { x: from.x + (to.x - from.x) * along, y: from.y + (to.y - from.y) * along };
+	return (
+		<div className={`link-label tone-${tone}`} style={placed(position, hidden)}>
+			{text}
+		</div>
+	);
+}
+
 export function Ring({ position, label, hidden }: { position: PlotPosition; label?: string; hidden?: boolean }) {
 	return (
 		<div className="ring" style={placed(position, hidden)}>

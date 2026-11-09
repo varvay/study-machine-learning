@@ -22,7 +22,7 @@ interface SearchInput {
 function resultNarration(target: Coordinates, answer: VectorId, trueNearest: VectorId, computedCount: number) {
 	const found = ` ${answer} is the answer, after ${computedCount} distance computations out of ${BASE_VECTORS.length} vectors.`;
 	if (answer === trueNearest) return `${found} It is also the true nearest.`;
-	return `${found} The true nearest is ${trueNearest} (${rounded(distance(target, baseGraph.vector(trueNearest)))}): the walk missed it. That is the "approximate" in ANN. Real searches keep a list of several candidates (ef_search) to miss less.`;
+	return `${found} The true nearest is ${trueNearest} (${rounded(distance(target, baseGraph.vector(trueNearest)))}): the walk missed it. That is the "approximate" in ANN. Real searches keep a list of the several closest candidates found so far, sized by the ef_search setting (in depth: G1.7 L3), to miss less.`;
 }
 
 function searchSteps({ query }: SearchInput): HnswStep[] {

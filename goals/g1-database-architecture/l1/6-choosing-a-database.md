@@ -9,10 +9,10 @@ Databases come in families. Each family stores data in a shape that makes some q
 | Relational | tables with a fixed schema | joins, transactions, ad-hoc SQL | orders, billing, most applications | PostgreSQL, MySQL |
 | Document | JSON-like documents, each with its own fields | reading or writing one whole record | product catalogs, user profiles | MongoDB |
 | Key-value | one value stored under each key | get or set by key, in memory | caches, sessions | Redis |
-| Wide-column | rows grouped by a partition key, spread across many servers | very high write volume | event logs, IoT readings | Cassandra |
+| Wide-column | rows grouped by a partition key, spread across many servers | very high write volume | event logs, IoT (internet-connected device) readings | Cassandra |
 | Graph | nodes linked by edges | following chains of links | fraud rings, recommendations | Neo4j |
 | Time-series | values stamped with a time | ranges and roll-ups over time | metrics, sensor data | TimescaleDB, InfluxDB |
-| Vector | embeddings (lists of numbers) | finding the most similar items | semantic search, RAG | pgvector, Qdrant, Pinecone |
+| Vector | embeddings (lists of numbers) | finding the most similar items | semantic search (search by meaning, G1.7), RAG (retrieval-augmented generation: fetch the passages closest to a question and hand them to an LLM, a large language model, so its answer draws on them; G1.7) | pgvector, Qdrant, Pinecone |
 
 **Relational vs wide-column.** Both show tables with rows and columns, so the difference lies in what you can ask:
 

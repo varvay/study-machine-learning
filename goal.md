@@ -84,8 +84,17 @@ Prepare **6 STAR stories** from my own experience:
 - [ ] Influenced a team decision or project direction.
 - [ ] Learned a new technology quickly and applied it.
 
+### G8 — Agentic AI Fluency
+Shipping work with Claude as an agent, Claude Code first, faster at the same quality. The JD leaves it implicit; interviewers ask how a candidate uses AI tools day to day (unsourced).
+- [ ] I can explain how Claude Code works (model, tools, loop, context window), where else Claude acts as an agent, and how it compares with Cursor, GitHub Copilot, and OpenAI Codex.
+- [ ] I can give an agent the context it needs: a scoped task, project instructions (CLAUDE.md, AGENTS.md), reference files, and a definition of done.
+- [ ] I can plan and delegate: split work into verifiable steps, make tests the agent's check, and run subagents or parallel sessions when the work splits.
+- [ ] I can review agent output, catch its typical errors (invented APIs, over-broad edits, tests weakened to pass), and own what ships.
+- [ ] I can run agents safely: permissions, sandboxing, secrets, prompt injection through files and web pages, and code and data policies.
+- [ ] I can extend an agent (MCP servers, skills, hooks), roll it out to a team, and cite the evidence on whether it helps.
+
 ## Proof: Capstone Project
-One project that proves G1 to G6 together, and that I can demo and walk through in the interview.
+One project that proves G1 to G6 and G8 together, and that I can demo and walk through in the interview.
 
 **Idea:** An *AI assistant over a document corpus* (e.g. technical manuals or my own study notes).
 
@@ -97,11 +106,12 @@ One project that proves G1 to G6 together, and that I can demo and walk through 
 | LoRA fine-tuned small model for one narrow task (e.g. classification or structured extraction), compared against a prompted baseline | G4 |
 | Evaluation set + error analysis report of recurring failure patterns | G2 |
 | Deployed on one cloud with basic monitoring, cost tracking, and a README architecture diagram | G6 |
+| Built with a coding agent, its project instructions, skills, and hooks committed in the repo | G8 |
 
 **Done when:** the repo is public, runs from its README, and I can explain every design decision and its trade-off.
 
 ## Interview Readiness Checklist
-- [ ] All G1 to G6 "I can..." statements checked.
+- [ ] All G1 to G6 and G8 "I can..." statements checked.
 - [ ] Capstone project done and rehearsed as a 5-minute walkthrough.
 - [ ] Can whiteboard 3 system designs in 30 minutes each:
   - [ ] RAG chatbot for enterprise documents
@@ -117,4 +127,4 @@ One project that proves G1 to G6 together, and that I can demo and walk through 
 To stay focused, I will **not** go deep on:
 - Training foundation models from scratch.
 - Heavy math proofs or research-level ML theory.
-- Every framework and every cloud; one of each, known well, beats many known shallowly. The framework is Spring AI.
+- Every framework and every cloud; one of each, known well, beats many known shallowly. The framework is Spring AI; the coding agent is Claude Code.

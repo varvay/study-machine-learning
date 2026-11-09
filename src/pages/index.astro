@@ -13,6 +13,16 @@ const levelsOf = (goalSlug: string) => levels.filter((level) => level.goalSlug =
 	<h1>Road to AI / ML Engineer</h1>
 	<p class="muted">Each goal is studied in three levels: surface, practical, and expertise.</p>
 
+	<section class="panel how-to-study">
+		<h2>How to study</h2>
+		<ol>
+			<li><b>Breadth</b> — read every L1, G1 to G8, so any interview question gets a correct short answer.</li>
+			<li><b>Practice</b> — work through L2 in priority order: G1, G6, G5, G3, G4, G2, building the capstone as you go; practice G8 in the agent that builds it.</li>
+			<li><b>Depth</b> — L3 for G1 and everything the capstone uses; rehearse the G7 stories.</li>
+			<li><b>Rehearsal</b> — the readiness checklist in goal.md, then mock interviews.</li>
+		</ol>
+	</section>
+
 	<ul class="panel goals">
 		{
 			goals.map(({ id, data }) => (
@@ -35,6 +45,16 @@ const levelsOf = (goalSlug: string) => levels.filter((level) => level.goalSlug =
 </Base>
 
 <style>
+	.how-to-study {
+		padding: 4px 18px 8px;
+		margin-top: 18px;
+	}
+	.how-to-study h2 {
+		margin-top: 12px;
+	}
+	.how-to-study li + li {
+		margin-top: 4px;
+	}
 	.goals {
 		list-style: none;
 		margin: 20px 0 0;

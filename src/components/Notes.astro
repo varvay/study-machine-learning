@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { NOTES_ENDPOINT } from '../lib/notes';
+import { url } from '../lib/url';
+import NotesEditor from '../notes/NotesEditor';
+import { renderNoteMarkdown } from '../notes/render';
+import '../styles/notes.css';
+
+interface Props {
+	noteId: string;
+	label: string;
+	entry?: CollectionEntry<'notes'>;
+}
+
+const { noteId, label, entry } = Astro.props;
+const markdown = entry?.body?.trim() ?? '';
+const editable = import.meta.env.DEV;
+---
+
+{
+	editable ? (
+		<div class="note-slot">
+			<NotesEditor client:only="react" noteId={noteId} label={label} initialMarkdown={markdown} endpoint={url(`/${NOTES_ENDPOINT}`)} />
+		</div>
+	) : (
+		markdown && (
+			<section class="note panel">
+				<header class="note-header">
+					<h3 class="note-label">{label}</h3>
+				</header>
+				<div class="note-body section-text" set:html={renderNoteMarkdown(markdown)} />
+			</section>
+		)
+	)
+}
